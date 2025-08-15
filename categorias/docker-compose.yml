@@ -1,0 +1,42 @@
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  oauth-server:
+    build: 
+      context: ./oauth/oaut-server
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    restart: on-failure
+
+  app:
+    build: .
+    ports:
+      - "8089:8089"
+    depends_on:
+      db:
+        condition: service_healthy
+      oauth-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/test?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    restart: on-failure
+
+volumes:
+  db_data:

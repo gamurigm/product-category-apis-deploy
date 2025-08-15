@@ -1,0 +1,32 @@
+logging:
+  level:
+    org.springframework.security: trace
+
+server:
+  port: 8089  # Agregamos el puerto que coincida con el Dockerfile
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://oauth-server:9000
+      client:
+        registration:
+          category:
+            provider: oauth-server
+            client-id: category
+            client-secret: secret12345
+            scope:
+              - openid
+              - profile
+              - read
+              - write
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8089/login/oauth2/code/category"
+        provider:
+          oauth-server:
+            authorization-uri: http://localhost:9000/oauth2/authorize
+            token-uri: http://oauth-server:9000/oauth2/token
+            jwk-set-uri: http://oauth-server:9000/.well-known/jwks.json
+            user-info-uri: http://oauth-server:9000/userinfo

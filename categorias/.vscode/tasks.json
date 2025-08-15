@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compilar Spring Boot App",
+      "type": "shell",
+      "command": "mvn clean package",
+      "group": "build",
+      "problemMatcher": ["$javac"]
+    },
+    {
+      "label": "Docker Compose Up",
+      "type": "shell",
+      "command": "docker compose up --build",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}
