@@ -5,14 +5,4 @@ server:
   port: 8089  # Agregamos el puerto que coincida con el Dockerfile
 
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://oauth-server:9000
-      client:
-        registration:
-          category:
-            provider: oauth-server
-            client-id: category
-            client-secret: secret12345
+

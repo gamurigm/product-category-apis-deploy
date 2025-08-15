@@ -15,13 +15,6 @@ services:
       timeout: 5s
       retries: 5
 
-  oauth-server:
-    build: 
-      context: ./oauth/oaut-server
-      dockerfile: Dockerfile
-    ports:
-      - "9000:9000"
-    restart: on-failure
 
   app:
     build: .
@@ -30,8 +23,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      oauth-server:
-        condition: service_started
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/test?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
