@@ -7,9 +7,9 @@ import java.util.List;
 
 @FeignClient(name = "category-service", url = "${CATEGORIES_SERVICE_URL}")
 public interface CategoryClient {
-    @GetMapping("/")
+    @GetMapping("/api/categorias")
     List<CategoryDTO> getAllCategories();
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/categorias/{id}")
     CategoryDTO getCategoryById(@PathVariable("id") Long id);
 }
